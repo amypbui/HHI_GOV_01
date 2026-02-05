@@ -132,3 +132,12 @@ All changes to this standard are versioned and publicly recorded.
 ## Canonical Statement
 
 HHI-GOV-01 defines governance as the infrastructure that ensures authority, accountability, and escalation cannot drift over time without leaving auditable, reviewable, and enforceable evidence within the defined system boundary.
+
+## Execution-Time Governance Workflow
+
+The execution-time governance workflow diagram documents how decision boundaries,
+authority assignment, stop authority, escalation paths, and continuous assurance
+are enforced at runtime under **HHI_GOV_01**.
+
+Diagram:
+- `diagrams/Execution-Time_Governance_Workflow.pdf`
