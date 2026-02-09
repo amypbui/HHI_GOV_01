@@ -1,0 +1,6 @@
+clause_id,clause_title,requirement_summary,evidence_type,evidence_path_or_pattern,validation_method,owner_role,status,notes
+TODO-01,TODO,"TODO requirement summary",LOCK_MANIFEST,governance/approval/LOCK_MANIFEST.json,"hash match + presence",HHI_Human_Authority,TODO,""
+TODO-02,TODO,"TODO requirement summary",CHECKSUMS,governance/approval/CANONICAL_CHECKSUMS_*.txt,"sha256 verify",Builder,TODO,""
+TODO-03,TODO,"TODO requirement summary",CODEOWNERS,.github/CODEOWNERS,"branch protection check",Builder,TODO,""
+TODO-04,TODO,"TODO requirement summary",WORKFLOW,.github/workflows/governance-check.yml,"CI pass/fail",Automation,TODO,""
+TODO-05,TODO,"TODO requirement summary",EVIDENCE_LOG,governance/audit/*,"presence + format",Auditor,TODO,""
