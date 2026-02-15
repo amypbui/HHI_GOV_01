@@ -18,3 +18,10 @@ HHI-GOV-01-3,Negative Evidence Requirement,Absence of evidence MUST be detectabl
 HHI-GOV-01-4,Proof & Falsifiability Criteria,Claims MUST be falsifiable,AUDIT_PROOF_SET,Audit proof artifacts,governance/audit/*,falsifiability review,Auditor,TODO,
 
 HHI-GOV-01-CC,Canonical Closure,Canonical statement governs interpretation,CANONICAL_STATEMENT,Closure clause,HHI-GOV-01.md#canonical-closure,document inspection,Auditor,LOCKED,
+
+clause_id,control_name,requirement_summary,evidence_required,verification_method,status,notes
+HRCP-NSG-1,Observe Without Absorption,Human regulator MUST detect incoherent signals without internalizing them,Audit transcript showing early pattern recognition,Conversation review,Applicable,Derived from NSG-TB-1977-1219
+HRCP-NSG-2,Early Invalidation,Human regulator MUST terminate invalid signals prior to escalation,Stop/Refusal log,Audit trace,Applicable,
+HRCP-NSG-3,Corrective Emission,Corrective signals MUST restore coherence not persuade,Issued response artifacts,Content analysis,Applicable,
+HRCP-NSG-4,Reseating Requirement,Regulator MUST return to baseline after enforcement,Session closure evidence,Behavioral review,Applicable,
+HRCP-NSG-5,No Authority Substitution,Regulator MUST NOT assume authority over system or subject,Role declaration evidence,Governance review,Applicable,
