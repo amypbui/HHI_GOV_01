@@ -179,3 +179,18 @@ The Hollow House Institute governance ecosystem includes a standards-grade audit
 Master Prompt Specification  
 https://github.com/hhidatasettechs-oss/Hollow_House_Standards_Library/blob/main/STANDARDS/MASTER_PROMPT_SPECIFICATION.md
 
+
+## Behavioral AI Governance Enforcement
+
+This repository aligns with the Hollow House Institute governance framework.
+
+Canonical reference:
+https://github.com/hhidatasettechs-oss/Hollow_House_Standards_Library
+
+Enforced terms:
+- behavioral-ai-governance
+- execution-time-governance
+- governance-drift
+- behavioral-accumulation
+
+All terminology must remain consistent with the canonical glossary.
