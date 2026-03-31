@@ -1,0 +1,32 @@
+name: governance-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Authority Binding
+        run: |
+          if ! grep -q "Canonical Source" README.md; then
+            echo "Missing Authority Binding"
+            exit 1
+          fi
+
+      - name: Check SYSTEM_MAP reference
+        run: |
+          if ! grep -q "SYSTEM_MAP" README.md; then
+            echo "Missing SYSTEM_MAP reference"
+            exit 1
+          fi
+
+      - name: Check checksum file
+        run: |
+          if [ ! -f CHECKSUMS.sha256 ]; then
+            echo "Missing checksum"
+            exit 1
+          fi
