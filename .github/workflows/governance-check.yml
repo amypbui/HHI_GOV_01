@@ -1,4 +1,4 @@
-name: governance-check
+name: governance-check-v2
 
 on:
   push:
@@ -10,23 +10,52 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Check Authority Binding
+      - name: Validate README exists
         run: |
-          if ! grep -q "Canonical Source" README.md; then
-            echo "Missing Authority Binding"
+          if [ ! -f README.md ]; then
+            echo "README.md missing"
             exit 1
           fi
 
-      - name: Check SYSTEM_MAP reference
+      - name: Enforce Canonical Authority URL
         run: |
-          if ! grep -q "SYSTEM_MAP" README.md; then
-            echo "Missing SYSTEM_MAP reference"
+          if ! grep -q "https://github.com/Hollow-house-institute/Hollow_House_Standards_Library" README.md; then
+            echo "Canonical Authority mismatch"
             exit 1
           fi
 
-      - name: Check checksum file
+      - name: Enforce SYSTEM_MAP binding
+        run: |
+          if ! grep -q "https://github.com/Hollow-house-institute/HHI_GOV_01/blob/main/SYSTEM_MAP.md" README.md; then
+            echo "SYSTEM_MAP binding missing"
+            exit 1
+          fi
+
+      - name: Enforce glossary binding
+        run: |
+          if ! grep -q "Standards_Library" README.md; then
+            echo "Glossary binding missing"
+            exit 1
+          fi
+
+      - name: Validate checksum integrity
         run: |
           if [ ! -f CHECKSUMS.sha256 ]; then
-            echo "Missing checksum"
+            echo "Checksum file missing"
             exit 1
           fi
+
+          sha256sum -c CHECKSUMS.sha256 || {
+            echo "Checksum validation failed"
+            exit 1
+          }
+
+      - name: Prevent empty audit linkage (audits repo only)
+        run: |
+          if [ -d "audits" ]; then
+            if ! grep -r "HHI_GOV_01" audits/ >/dev/null 2>&1; then
+              echo "Audit not linked to governance standard"
+              exit 1
+            fi
+          }
+
