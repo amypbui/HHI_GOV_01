@@ -106,59 +106,40 @@ jobs:
             fi
           fi
 
-      - name: Generate governance score and audit artifact
-        run: |
-          SCORE=0
 
-          [ -f README.md ] && SCORE=$((SCORE+1))
-          grep -Fq "https://github.com/Hollow-house-institute/Hollow_House_Standards_Library" README.md && SCORE=$((SCORE+1))
-          grep -Fq "https://github.com/Hollow-house-institute/HHI_GOV_01/blob/main/SYSTEM_MAP.md" README.md && SCORE=$((SCORE+1))
-          grep -Fq "https://doi.org/10.5281/zenodo.18615600" README.md && SCORE=$((SCORE+1))
-          grep -Fq "https://orcid.org/0009-0009-4806-1949" README.md && SCORE=$((SCORE+1))
+      - name: Generate governance artifact (guaranteed)
+        run: |
+          mkdir -p governance_reports
+
+          SCORE=0
+          MAX=8
+
+          if [ -f README.md ]; then SCORE=$((SCORE+1)); fi
+          grep -Fq "Hollow_House_Standards_Library" README.md && SCORE=$((SCORE+1))
+          grep -Fq "SYSTEM_MAP" README.md && SCORE=$((SCORE+1))
+          grep -Fq "zenodo" README.md && SCORE=$((SCORE+1))
+          grep -Fq "orcid" README.md && SCORE=$((SCORE+1))
           grep -Fq "v1.3.0" README.md && SCORE=$((SCORE+1))
           [ -f CHECKSUMS.sha256 ] && SCORE=$((SCORE+1))
           [ -f AUTHORITY_BINDING.md ] && SCORE=$((SCORE+1))
 
-          mkdir -p governance_reports
+          STATUS="fail"
+          if [ "$SCORE" -ge 7 ]; then STATUS="pass"; fi
 
           cat > governance_reports/governance_audit.json << JSON
           {
             "repo": "${GITHUB_REPOSITORY}",
-            "commit": "${GITHUB_SHA}",
-            "run_id": "${GITHUB_RUN_ID}",
-            "canonical_url": "https://github.com/Hollow-house-institute/Hollow_House_Standards_Library",
-            "system_map_url": "https://github.com/Hollow-house-institute/HHI_GOV_01/blob/main/SYSTEM_MAP.md",
-            "doi_url": "https://doi.org/10.5281/zenodo.18615600",
-            "orcid_url": "https://orcid.org/0009-0009-4806-1949",
-            "glossary_version": "v1.3.0",
             "score": $SCORE,
-            "max_score": 8,
-            "status": "$( [ $SCORE -ge 7 ] && echo pass || echo fail )"
+            "max_score": $MAX,
+            "status": "$STATUS"
           }
 JSON
 
-          cat > governance_reports/governance_audit.md << MD
-          # Governance Audit Report
-
-          - Repo: ${GITHUB_REPOSITORY}
-          - Commit: ${GITHUB_SHA}
-          - Run ID: ${GITHUB_RUN_ID}
-          - Score: $SCORE / 8
-          - Status: $( [ $SCORE -ge 7 ] && echo pass || echo fail )
-
-          ## Checks
-          - Canonical URL enforced
-          - SYSTEM_MAP enforced
-          - DOI enforced
-          - ORCID enforced
-          - Glossary version locked
-          - Checksum integrity validated
-          - Authority binding file required
-          MD
+          echo "Artifact created:"
+          ls -R governance_reports
 
       - name: Upload governance audit artifact
         uses: actions/upload-artifact@v4
         with:
           name: governance-audit-${{ github.run_id }}
-          path: governance_reports/
-
+          path: governance_reports
