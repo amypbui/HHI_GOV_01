@@ -1,0 +1,30 @@
+name: Governance Enforcement
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enforce Governance Boundary
+        run: |
+          echo "Checking for execution artifacts in root..."
+          ls | grep -E 'datasets|pipeline|releases|dataset_license|Docs' && echo "FAIL: Execution artifacts present" && exit 1 || echo "PASS"
+
+      - name: Enforce License Authority
+        run: |
+          echo "Checking for CC license drift..."
+          grep -r "CC BY" . --exclude-dir=archive --exclude=LICENSE_AUTHORITY.md && echo "FAIL: License drift detected" && exit 1 || echo "PASS"
+
+      - name: Enforce Canonical Terms
+        run: |
+          echo "Checking for required governance terms..."
+          grep -q "Decision Boundary" README.md || (echo "FAIL: Missing Decision Boundary" && exit 1)
+          grep -q "Stop Authority" GOVERNANCE.md || (echo "FAIL: Missing Stop Authority" && exit 1)
+          echo "PASS"

@@ -1,0 +1,2 @@
+{"event":"init","actor":"system","decision_boundary":"governance_enforced","action":"setup","outcome":"active","escalation":"none","timestamp":"INIT"}
+{"event":"governance_ci_enabled","actor":"user","decision_boundary":"repo_control","action":"ci_enforced","outcome":"success","escalation":"none","timestamp":"2026-04-02T22:14:24Z"}
